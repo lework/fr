@@ -64,6 +64,9 @@ docker-compose build
 
 # 启动
 docker-compose up -d
+
+# 或者使用 docker 镜像
+docker run -d --name fr -p 8000:8000 lework/fr
 ```
 
 访问: `http://<host>:8000`,  默认用户: `admin/admin123`
