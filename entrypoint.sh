@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-trap stop SIGTERM SIGINT SIGQUIT SIGHUP ERR
+trap stop SIGTERM SIGINT SIGQUIT SIGHUP EXIT
 
 chdir=/code
 
@@ -11,11 +11,11 @@ start(){
   
   python manage.py makemigrations
   python manage.py migrate
-  python manage.py collectstatic
+  python manage.py collectstatic --noinput
   
   [ -f /code/fr_backend/db.sqlite3 ] && { python manage.py create_demo_user; python manage.py create_demo_event; }
   
-  uwsgi --ini "$chdir/uwsgi.ini"
+  exec uwsgi --die-on-term --ini "$chdir/uwsgi.ini"
 }
 
 stop(){
